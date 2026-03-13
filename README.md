@@ -17,7 +17,7 @@
 
 ## 📦 Сборка проекта
 
-**Простой способ:**
+## Простой способ:
 ```bash
 # Клонируйте репозиторий
 git clone https://github.com/Breit1/duty_schedule_c
@@ -27,6 +27,8 @@ cd duty_schedule_c
 
 ./build.sh
 ```
+
+## Или вручную
 
 ### Linux/macOS
 
