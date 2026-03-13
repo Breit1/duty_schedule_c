@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>График Дежурств</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📅 График Дежурств</h1>
+            <p class="subtitle">Автоматическое распределение задач и дежурств</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="schedule">📋 Расписание</button>
+            <button class="tab-btn" data-tab="tasks">✅ Задачи</button>
+            <button class="tab-btn" data-tab="users">👥 Пользователи</button>
+            <button class="tab-btn" data-tab="statistics">📊 Статистика</button>
+        </nav>
+
+        <!-- Вкладка Расписание -->
+        <div class="tab-content active" id="schedule">
+            <div class="controls">
+                <button class="btn btn-primary" onclick="generateSchedule()">🔄 Сгенерировать расписание</button>
+                <input type="date" id="startDate" class="date-input">
+                <input type="date" id="endDate" class="date-input">
+                <button class="btn btn-secondary" onclick="filterSchedule()">🔍 Фильтровать</button>
+                <select id="userFilter" class="select-input">
+                    <option value="">Все пользователи</option>
+                </select>
+            </div>
+            <div id="scheduleList" class="schedule-list"></div>
+        </div>
+
+        <!-- Вкладка Задачи -->
+        <div class="tab-content" id="tasks">
+            <div class="controls">
+                <button class="btn btn-primary" onclick="showTaskModal()">➕ Добавить задачу</button>
+            </div>
+            <div id="tasksList" class="tasks-list"></div>
+        </div>
+
+        <!-- Вкладка Пользователи -->
+        <div class="tab-content" id="users">
+            <div class="controls">
+                <button class="btn btn-primary" onclick="showUserModal()">➕ Добавить пользователя</button>
+            </div>
+            <div id="usersList" class="users-list"></div>
+        </div>
+
+        <!-- Вкладка Статистика -->
+        <div class="tab-content" id="statistics">
+            <div id="statisticsContent" class="statistics-content"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для задачи -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeTaskModal()">&times;</span>
+            <h2 id="taskModalTitle">Добавить задачу</h2>
+            <form id="taskForm" onsubmit="saveTask(event)">
+                <input type="hidden" id="taskId">
+                <label>
+                    Название задачи:
+                    <input type="text" id="taskName" required>
+                </label>
+                <label>
+                    Описание:
+                    <textarea id="taskDescription" rows="3"></textarea>
+                </label>
+                <label>
+                    Периодичность (дней):
+                    <input type="number" id="taskFrequency" min="1" value="1" required>
+                </label>
+                <label>
+                    Длительность (минут):
+                    <input type="number" id="taskDuration" min="1" value="30" required>
+                </label>
+                <label>
+                    Категория:
+                    <select id="taskCategory" required>
+                        <option value="уборка">Уборка</option>
+                        <option value="кухня">Кухня</option>
+                        <option value="ванна">Ванна</option>
+                        <option value="общее">Общее</option>
+                        <option value="другое">Другое</option>
+                    </select>
+                </label>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно для пользователя -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUserModal()">&times;</span>
+            <h2 id="userModalTitle">Добавить пользователя</h2>
+            <form id="userForm" onsubmit="saveUser(event)">
+                <input type="hidden" id="userId">
+                <label>
+                    Имя:
+                    <input type="text" id="userName" required>
+                </label>
+                <label>
+                    Email:
+                    <input type="email" id="userEmail">
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="userActive" checked>
+                    Активен
+                </label>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUserModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно для заметок -->
+    <div id="notesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNotesModal()">&times;</span>
+            <h2>Заметки</h2>
+            <form id="notesForm" onsubmit="saveNotes(event)">
+                <input type="hidden" id="notesDutyId">
+                <input type="hidden" id="notesAction">
+                <label>
+                    Заметки:
+                    <textarea id="notesText" rows="4"></textarea>
+                </label>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary" id="notesSubmitBtn">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeNotesModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+
